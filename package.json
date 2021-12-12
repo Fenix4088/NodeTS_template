@@ -7,7 +7,6 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon index.ts",
     "dev": "nodemon --inspect index.ts",
-    "start_fs": "TEST=hello ts-node src/file-system.ts",
     "build": "tsc"
   },
   "keywords": [],
@@ -26,6 +25,7 @@
     "@types/express": "^4.17.13",
     "cross-env": "^7.0.3",
     "dotenv": "^10.0.0",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "mongoose": "^6.1.1"
   }
 }
