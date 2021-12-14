@@ -1,16 +1,15 @@
 import dotenv from 'dotenv';
 import express from 'express';
+import router from './src/routers/router';
 dotenv.config();
 
 const PORT: number = (process.env.PORT && +process.env.PORT) || 5000;
 
 const app = express();
 
-app.get('/', (req, res) => {
-  console.log(req.query);
+app.use(express.json());
 
-  res.status(200).json('Server is working11!');
-});
+app.use('/api', router)
 
 const startApp = async () => {
   try {
@@ -21,3 +20,5 @@ const startApp = async () => {
     console.error(err);
   }
 };
+
+startApp();
