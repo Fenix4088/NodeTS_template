@@ -1,6 +1,6 @@
 import { TypedRequestBody, TypedRequestQuery } from '../types/common';
-import { Response } from 'express';
-import { ICreatePostBody } from 'src/types/posts';
+import { Response, Request } from 'express';
+import { ICreatePostBody, IGetPosts } from '../types/posts';
 import Post from '../models/post.model';
 import { Document } from 'mongoose';
 
@@ -22,6 +22,8 @@ class PostController implements IPostController {
       res.status(500).send(err.message);
     }
   };
+
+  public getPosts = async (req: Request<{}, {}, {}, IGetPosts>, res: Response) => {};
 }
 
 export default new PostController();

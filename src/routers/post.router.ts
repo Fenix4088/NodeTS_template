@@ -1,9 +1,15 @@
-import { Router } from "express";
-import PostController from "../controllers/post.controller";
+import { Router } from 'express';
+import PostController from '../controllers/post.controller';
 
 const router = Router();
 
-router.post('/posts', (req, res) => PostController.create(req, res))
+type TRouterEndpoints = '/posts' | '/posts/:id';
 
+router.post<TRouterEndpoints>('/posts', (req, res) => PostController.create(req, res));
+router.get<TRouterEndpoints>('/posts', (req, res) => PostController.create(req, res));
+router.get<TRouterEndpoints>('/posts/:id', (req, res) => PostController.create(req, res));
+
+router.put<TRouterEndpoints>('/posts', (req, res) => PostController.create(req, res));
+router.delete<TRouterEndpoints>('/posts/:id', (req, res) => PostController.create(req, res));
 
 export default router;

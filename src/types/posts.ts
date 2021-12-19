@@ -4,3 +4,7 @@ export interface ICreatePostBody {
       content: string;
       picture?: string;
 }
+
+export interface IGetPosts {
+      id?: string;
+}
