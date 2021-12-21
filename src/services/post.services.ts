@@ -1,61 +1,52 @@
-import { ICreatePostBody } from "src/types/posts";
+import { ICreatePostBody } from "../types/posts";
+import Post from '../models/post.model';
+import { DocumentedObject } from "../types/common";
 
-class PostServices {
-      public create = async (post: Omit<ICreatePostBody, '_id'>) => {
-            try {
+interface IPostServices {
+  create(post: Omit<ICreatePostBody, '_id'>): Promise<DocumentedObject<ICreatePostBody>>;
+  getPosts(id?:string): Promise<DocumentedObject<ICreatePostBody>[] | DocumentedObject<ICreatePostBody> | null>;
+}
+
+
+class PostServices implements IPostServices {
+      public create = async (post: Omit<ICreatePostBody, '_id'>): Promise<DocumentedObject<ICreatePostBody>> => {
               const { author, title, content, picture } = post;
         
-              const newPost: ICreatePostBody & Document = new Post({ author, title, content, picture });
+              const newPost = new Post({ author, title, content, picture });
+              await newPost.save();
         
-              const savedPostRes = await newPost.save();
-        
-              res.status(200).send(savedPostRes);
-            } catch (err: any) {
-              res.status(500).send(err.message);
-            }
+              return newPost;
           };
         
-          public getPosts = async (req: Request<{}, {}, {}, IGetPosts>, res: Response) => {
-            const {id} = req.query;
-              try {
+          public getPosts = async (id?: string): Promise<DocumentedObject<ICreatePostBody>[] | DocumentedObject<ICreatePostBody> | null> => {
+            debugger;
                 if(!id) {
                   const allPosts = await Post.find(); 
-                  res.status(200).send(allPosts);
-                  return;
+                  return allPosts;
                 }
         
                 const post = await Post.findById(id);
         
-                if(!post) {
-                  res.status(404).send('Post not found');
-                  return;
-                } 
-        
-                res.status(200).send(post);
-        
-        
-              } catch(e) {
-                res.status(500).send(e);
-              }
+                return post;
         
           };
         
-          public update = async (req: TypedRequestBody<ICreatePostBody>, res: Response) => {
-            const { author, title, content, picture, _id } = req.body;
+          // public update = async (req: TypedRequestBody<ICreatePostBody>, res: Response) => {
+          //   const { author, title, content, picture, _id } = req.body;
         
-            if(!_id) {
-              res.status(400).json(`No post id`);
-            }
+          //   if(!_id) {
+          //     res.status(400).json(`No post id`);
+          //   }
         
-            const updatedPost = await Post.findOneAndUpdate({_id}, {author, title, content, picture}, {new: true});
+          //   const updatedPost = await Post.findOneAndUpdate({_id}, {author, title, content, picture}, {new: true});
         
-            if(!updatedPost) {
-              res.status(404).json(`Post with id: ${_id} not found`);
-            }
+          //   if(!updatedPost) {
+          //     res.status(404).json(`Post with id: ${_id} not found`);
+          //   }
             
-            res.status(200).json(updatedPost)
+          //   res.status(200).json(updatedPost)
         
-          };
+          // };
 }
 
 export default new PostServices();
