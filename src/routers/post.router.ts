@@ -3,16 +3,19 @@ import PostController from '../controllers/post.controller';
 
 const router = Router();
 
-type TRouterEndpoints = '/posts' | '/posts/:id';
+enum PostsEndpoints {
+  POST = '/posts',
+  POST_WITH_ID = '/posts/:id',
+}
 
-router.post<TRouterEndpoints>('/posts', (req, res) => PostController.create(req, res));
+router.post(`${PostsEndpoints.POST}`, (req, res) => PostController.create(req, res));
 
-router.get<TRouterEndpoints>('/posts', (req, res) => PostController.getPosts(req, res));
+router.get(`${PostsEndpoints.POST}`, (req, res) => PostController.getPosts(req, res));
 
-router.get<TRouterEndpoints>('/posts/:id', (req, res) => PostController.getPosts(req, res));
+router.get('/posts/:id', (req, res) => PostController.getPosts(req, res));
 
-router.put<TRouterEndpoints>('/posts', (req, res) => PostController.update(req, res));
+router.put(`${PostsEndpoints.POST}`, (req, res) => PostController.update(req, res));
 
-router.delete<TRouterEndpoints>('/posts', (req, res) => PostController.delete(req, res));
+router.delete(`${PostsEndpoints.POST}`, (req, res) => PostController.delete(req, res));
 
 export default router;

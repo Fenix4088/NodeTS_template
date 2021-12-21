@@ -7,7 +7,7 @@ export interface TypedRequestBody<T = any> extends Request {
   body: T;
 }
 
-export type TypedRequestQuery<T> = Request<{}, {}, {}, T>;
+export type TRequest<ReqBody, ReqQuery> = Request<{}, {}, ReqBody, ReqQuery>;
 
 export type DocumentedObject<T> = Document<any, any, T> & T & {
   _id: Types.ObjectId;
