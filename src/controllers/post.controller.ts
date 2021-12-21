@@ -1,14 +1,13 @@
-import { TypedRequestQuery } from './../../dist/src/types/common.d';
-import { TypedRequestBody } from '../types/common';
+import { TypedRequestBody, TypedRequestQuery } from '../types/common';
 import { Response, Request } from 'express';
 import { ICreatePostBody, IGetPosts } from '../types/posts';
 import PostServices from '../services/post.services';
 
 interface IPostController {
   create(req: TypedRequestBody<Omit<ICreatePostBody, '_id'>>, res: Response): Promise<void>;
-  getPosts(req: TypedRequestBody<ICreatePostBody>, res: Response): Promise<void>;
+  getPosts(req: TypedRequestQuery<IGetPosts>, res: Response): Promise<void>;
   update(req: TypedRequestBody<ICreatePostBody>, res: Response): Promise<void>;
-  delete(req: TypedRequestBody<ICreatePostBody>, res: Response): Promise<void>;
+  delete(req: Request<{}, {}, {}, IGetPosts>, res: Response): Promise<void>;
 }
 
 class PostController implements IPostController {
@@ -24,7 +23,7 @@ class PostController implements IPostController {
     }
   };
 
-  public getPosts = async (req: Request<{}, {}, {}, IGetPosts>, res: Response) => {
+  public getPosts = async (req: TypedRequestQuery<IGetPosts>, res: Response) => {
     const { id } = req.query;
 
     try {
@@ -56,7 +55,7 @@ class PostController implements IPostController {
     res.status(200).json(updatedPost);
   };
 
-  public delete = async (req: any, res: Response) => {
+  public delete = async (req: TypedRequestQuery<IGetPosts>, res: Response) => {
     try {
       const { id } = req.query;
 
