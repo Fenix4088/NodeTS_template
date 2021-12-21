@@ -9,7 +9,7 @@ const PORT: number = (process.env.PORT && +process.env.PORT) || 5000;
 const DB: string = `mongodb+srv://fenix:${process.env.PASS}@cluster0.1kxrh.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`;
 
 const app = express();
-
+app.use(express.static('static'));
 app.use(express.json());
 
 app.use('/api', router);

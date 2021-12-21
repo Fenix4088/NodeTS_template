@@ -13,5 +13,6 @@ router.get<TRouterEndpoints>('/posts/:id', (req, res) => PostController.getPosts
 
 router.put<TRouterEndpoints>('/posts', (req, res) => PostController.update(req, res));
 
+router.delete<TRouterEndpoints>('/posts', (req, res) => PostController.delete(req, res));
 
 export default router;
