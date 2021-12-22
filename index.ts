@@ -2,6 +2,7 @@ import dotenv from 'dotenv';
 import express from 'express';
 import router from './src/routers/post.router';
 import mongoose from 'mongoose';
+import fileupload from 'express-fileupload';
 
 dotenv.config();
 
@@ -11,6 +12,7 @@ const DB: string = `mongodb+srv://fenix:${process.env.PASS}@cluster0.1kxrh.mongo
 const app = express();
 app.use(express.static('static'));
 app.use(express.json());
+app.use(fileupload({}))
 
 app.use('/api', router);
 
