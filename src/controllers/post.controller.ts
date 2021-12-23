@@ -13,11 +13,11 @@ interface IPostController {
 class PostController implements IPostController {
   public create = async (req: TRequest<Omit<ICreatePostBody, '_id'>, {}, true>, res: Response) => {
     try {
-      console.log(req.files?.picture)
 
-      const { author, title, content, picture } = req.body;
 
-      const newPost = await PostServices.create({ author, title, content, picture });
+      const { author, title, content } = req.body;
+
+      const newPost = await PostServices.create({ author, title, content, picture: req.files?.picture });
 
       res.status(200).send(newPost);
     } catch (err: any) {

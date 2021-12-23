@@ -1,6 +1,7 @@
 import { ICreatePostBody } from '../types/posts';
 import Post from '../models/post.model';
 import { DocumentedObject } from '../types/common';
+import FileService from './file.service';
 
 interface IPostServices {
   create(post: Omit<ICreatePostBody, '_id'>): Promise<DocumentedObject<ICreatePostBody>>;
@@ -11,9 +12,16 @@ interface IPostServices {
 
 class PostServices implements IPostServices {
   public create = async (post: Omit<ICreatePostBody, '_id'>): Promise<DocumentedObject<ICreatePostBody>> => {
-    const { author, title, content, picture } = post;
 
-    const newPost = new Post({ author, title, content, picture });
+    const { author, title, content, picture } = post;
+    
+    let fileName: string  | undefined  = '';
+    if(picture) {
+      fileName = await FileService.saveFile(picture);
+    }
+     
+
+    const newPost = new Post({ author, title, content, picture: fileName });
     await newPost.save();
 
     return newPost;

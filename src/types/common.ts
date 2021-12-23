@@ -1,5 +1,3 @@
-import { Query } from 'express-serve-static-core';
-
 import { Request } from 'express';
 import { Types, Document } from 'mongoose';
 import { FileArray, UploadedFile } from 'express-fileupload';
