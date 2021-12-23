@@ -2,22 +2,22 @@ import { Query } from 'express-serve-static-core';
 
 import { Request } from 'express';
 import { Types, Document } from 'mongoose';
-import { UploadedFile } from 'express-fileupload';
+import { FileArray, UploadedFile } from 'express-fileupload';
 
 export interface TypedRequestBody<T = any> extends Request {
   body: T;
 }
 
-export type TRequest<ReqBody, ReqQuery, WithFile = false, FileListNames = ''> = Request<{}, {}, ReqBody, ReqQuery> & WithFileType<WithFile, FileListNames>;
+export type TRequest<ReqBody, ReqQuery, WithFile = false> = Request<{}, {}, ReqBody, ReqQuery> & WithFileType<WithFile>;
 
-type WithFileType<C, FileListNames> = C extends true ? {
-  files?: FileListGenerator<FileListNames>
-} : {};
+//TODO: try to redaclare original FileArray type and set there a strict strings as a keys
+type WithFileType<C> = C extends true
+  ? {
+      files?: FileArray;
+    }
+  : {};
 
-type FileListGenerator<FileListNames extends 'string | number | symbol'> = {
-  [key in FileListNames extends '' ? never : FileListNames]: UploadedFile
-}
-
-export type DocumentedObject<T> = Document<any, any, T> & T & {
-  _id: Types.ObjectId;
-};
+export type DocumentedObject<T> = Document<any, any, T> &
+  T & {
+    _id: Types.ObjectId;
+  };
