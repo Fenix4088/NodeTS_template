@@ -1,6 +1,6 @@
 import { Request } from 'express';
 import { Types, Document } from 'mongoose';
-import { FileArray, UploadedFile } from 'express-fileupload';
+import { FileArray } from 'express-fileupload';
 
 export interface TypedRequestBody<T = any> extends Request {
   body: T;
